@@ -6,13 +6,15 @@ import java.time.Instant;
 import server.dataStorage.MovieCollection;
 
 public class CheckUpdateCollection extends Command<Void> {
+	private CommandLoadNextPage loadNextPage;
+
 	//добавить реализацию текущей страницы
 	@Override
 	String command(Void arg, String login, String password) {
 		if(MovieCollection.getLastUpdate().isAfter(Instant.now().minusSeconds(3))) {
-			return "ДА";
+			return loadNextPage.command(1L, login, password);
 		}
-		else return "НЕТ";
+		else return "ОбновленийНеБыло";
 	}
 
 	@Override

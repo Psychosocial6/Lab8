@@ -53,7 +53,7 @@ public class MovieTableModel extends AbstractTableModel {
     }
 
     public void updateMovies(ArrayList<TableElement> movies) {
-        this.movies = new ArrayList<>(movies);
+        this.movies = movies;
         fireTableDataChanged();
     }
 

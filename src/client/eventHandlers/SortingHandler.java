@@ -4,6 +4,7 @@ import client.Client;
 import client.ClientRequestSender;
 import client.ClientResponseReceiver;
 import client.GUI.MainPageGUI;
+import client.dataStorage.CollectionView;
 import client.interfaces.SortingHandlerInterface;
 import client.other.PageParser;
 import client.other.TableElement;
@@ -11,6 +12,7 @@ import client.other.TableElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SortingHandler implements SortingHandlerInterface {
     private MainPageGUI mainPageGUI;
@@ -38,8 +40,14 @@ public class SortingHandler implements SortingHandlerInterface {
         String param = params.get(parameter);
         Client.pageCounter = 1L;
         try {
-            sender.send(new Object[]{"load_next_sorted_page", new Object[]{Client.pageCounter}, Client.currentClient.getUserName(), Client.currentClient.getUserPassword()});
-            return PageParser.parsePage((String) receiver.getData());
+            sender.send(new Object[]{"load_next_sorted_page", new Object[]{Client.pageCounter, param}, Client.currentClient.getUserName(), Client.currentClient.getUserPassword()});
+            receiver.getResponce();
+            Map<Long, String> response = CollectionView.getMovieView();
+            ArrayList<TableElement> elements = new ArrayList<>();
+            for (Long id : response.keySet()) {
+                elements.add(new TableElement(id, response.get(id)));
+            }
+            return elements;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

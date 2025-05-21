@@ -7,6 +7,7 @@ import java.util.*;
 import client.GUI.MainPageGUI;
 import client.GUI.RegistrationPageGUI;
 import client.dataInput.DataInput;
+import client.dataStorage.CollectionView;
 import client.dataStorage.CurrentClient;
 import client.dataStorage.DataForMovie;
 import client.dataValidation.CheckData;

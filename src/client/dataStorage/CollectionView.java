@@ -3,14 +3,15 @@ package client.dataStorage;
 
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 public class CollectionView {
 
-	static private Map<Long, String> movieView = new HashMap<Long, String>();
+	static private Map<Long, String> movieView = new LinkedHashMap<>();
 	
-	public CollectionView(HashMap<Long, String> movieView) {
+	public CollectionView(LinkedHashMap<Long, String> movieView) {
 		setMovieView(movieView);
 		
 	}
@@ -19,7 +20,7 @@ public class CollectionView {
 		return movieView;
 	}
 
-	static public void setMovieView(HashMap<Long, String> movieView) {
+	static public void setMovieView(LinkedHashMap<Long, String> movieView) {
 		CollectionView.movieView = movieView;
 	}
 
