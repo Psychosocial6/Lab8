@@ -112,6 +112,7 @@ public class MainPageGUI {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<TableElement> movies = nextPageHandler.getNextPage();
                 ((MovieTableModel) elementsTable.getModel()).updateMovies(movies);
+                ((MovieTableModel) elementsTable.getModel()).fireTableDataChanged();
             }
         });
 
@@ -164,6 +165,7 @@ public class MainPageGUI {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<TableElement> elements = sortingHandler.sort((String) menu.getSelectedItem());
                 ((MovieTableModel) elementsTable.getModel()).updateMovies(elements);
+                ((MovieTableModel) elementsTable.getModel()).fireTableDataChanged();
             }
         });
 

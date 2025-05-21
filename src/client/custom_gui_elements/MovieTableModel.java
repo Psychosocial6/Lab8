@@ -10,7 +10,7 @@ public class MovieTableModel extends AbstractTableModel {
     private String[] columnNames = {"id", "name"};
 
     public MovieTableModel(ArrayList<TableElement> movies) {
-        this.movies = new ArrayList<>(movies);
+        this.movies = movies;
     }
 
     @Override
@@ -53,8 +53,10 @@ public class MovieTableModel extends AbstractTableModel {
     }
 
     public void updateMovies(ArrayList<TableElement> movies) {
-        this.movies = movies;
-        fireTableDataChanged();
+        System.out.println(111);
+        this.movies.clear();
+        this.movies.addAll(movies);
+        fireTableRowsUpdated(0, movies.size() - 1);
     }
 
 }
