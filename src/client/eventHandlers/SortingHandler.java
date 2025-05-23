@@ -41,14 +41,18 @@ public class SortingHandler implements SortingHandlerInterface {
         Client.pageCounter = 1L;
         try {
             sender.send(new Object[]{"load_next_sorted_page", new Object[]{Client.pageCounter, param}, Client.currentClient.getUserName(), Client.currentClient.getUserPassword()});
-            receiver.getResponce();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Map<Long, String> response = CollectionView.getMovieView();
             ArrayList<TableElement> elements = new ArrayList<>();
             for (Long id : response.keySet()) {
                 elements.add(new TableElement(id, response.get(id)));
             }
             return elements;
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();

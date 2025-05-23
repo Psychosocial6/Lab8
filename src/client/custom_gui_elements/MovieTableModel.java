@@ -53,7 +53,6 @@ public class MovieTableModel extends AbstractTableModel {
     }
 
     public void updateMovies(ArrayList<TableElement> movies) {
-        System.out.println(111);
         this.movies.clear();
         this.movies.addAll(movies);
         fireTableRowsUpdated(0, movies.size() - 1);

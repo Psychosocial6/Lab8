@@ -51,9 +51,11 @@ public class MainPageGUI {
     public static final String SORT_BUTTON_TITLE = "Sort";
     public static final String FILTERS_BUTTON_TITLE = "Filter";
     public static final String FILTER_HINT = "><= *value*";
+    public static final String ADD_BUTTON_TITLE = "Add";
 
     public static final int VERTICAL_STRUT = 20;
     public static final int SMALL_VERTICAL_STRUT = 5;
+    public static final int HORIZONTAL_STRUT = 10;
 
     public static final Color BUTTON_COLOR = new Color(0, 169, 255);
     public static final Color TEXT_COLOR = Color.BLACK;
@@ -70,6 +72,7 @@ public class MainPageGUI {
     private FilterHandler filterHandler;
     private ClientRequestSender sender;
     private ClientResponseReceiver receiver;
+    private JButton addButton;
 
     public MainPageGUI(String user, ArrayList<TableElement> elements) {
         window = new JFrame(TITLE);
@@ -82,6 +85,7 @@ public class MainPageGUI {
         nextPageButton = createNextPageButton();
         sortingMenu = createSortingMenu();
         filtersMenu = createFiltersMenu();
+        addButton = createAddButton();
     }
 
     /**
@@ -105,6 +109,7 @@ public class MainPageGUI {
         JButton button = new JButton();
         button.setText(NEXT_PAGE_BUTTON_TITLE);
         button.setPreferredSize(BUTTON_SIZE);
+        button.setMaximumSize(BUTTON_SIZE);
         button.setBackground(BUTTON_COLOR);
 
         button.addActionListener(new ActionListener() {
@@ -113,6 +118,23 @@ public class MainPageGUI {
                 ArrayList<TableElement> movies = nextPageHandler.getNextPage();
                 ((MovieTableModel) elementsTable.getModel()).updateMovies(movies);
                 ((MovieTableModel) elementsTable.getModel()).fireTableDataChanged();
+            }
+        });
+
+        return button;
+    }
+
+    private JButton createAddButton() {
+        JButton button = new JButton();
+        button.setText(ADD_BUTTON_TITLE);
+        button.setPreferredSize(BUTTON_SIZE);
+        button.setMaximumSize(BUTTON_SIZE);
+        button.setBackground(BUTTON_COLOR);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddPageGUI addPageGUI = new AddPageGUI();
+                addPageGUI.createAndShowWindow();
             }
         });
 
@@ -132,12 +154,12 @@ public class MainPageGUI {
                 if (row >= 0) {
                     TableElement selectedMovie = ((MovieTableModel) table.getModel()).getMovieAt(row);
                     //CurrentMovie movie = sender.send(new Object[]{"load_next_sorted_page", new Object[]{Client.pageCounter}, Client.currentClient.getUserName(), Client.currentClient.getUserPassword()});
-                    //ElementInfoPageGUI elementInfoPageGUI = new ElementInfoPageGUI(se.getName());
-                    //DeleteHandler deleteHandler = new DeleteHandler(elementInfoPageGUI);
-                    //EditHandler editHandler = new EditHandler(elementInfoPageGUI);
-                    //elementInfoPageGUI.setEditHandler(editHandler);
-                    //elementInfoPageGUI.setDeleteHandler(deleteHandler);
-                    //elementInfoPageGUI.createAndShowWindow();
+                    ElementInfoPageGUI elementInfoPageGUI = new ElementInfoPageGUI("id...\nname\n...");
+                    DeleteHandler deleteHandler = new DeleteHandler(elementInfoPageGUI);
+                    EditHandler editHandler = new EditHandler(elementInfoPageGUI);
+                    elementInfoPageGUI.setEditHandler(editHandler);
+                    elementInfoPageGUI.setDeleteHandler(deleteHandler);
+                    elementInfoPageGUI.createAndShowWindow();
                 }
             }
         });
@@ -258,8 +280,11 @@ public class MainPageGUI {
         tp.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(tp);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.add(nextPageButton);
+        buttonPanel.add(Box.createHorizontalStrut(HORIZONTAL_STRUT));
+        buttonPanel.add(addButton);
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(buttonPanel);
 
